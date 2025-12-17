@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>محاسبة مخبز كوكيز</title>
+    
+    <!-- Optimize Connections -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://aistudiocdn.com">
+    <link rel="dns-prefetch" href="https://aistudiocdn.com">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1F2937">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Cairo', sans-serif;
+        background-color: #111827; /* gray-900 */
+        color: #F3F4F6; /* gray-100 */
+      }
+      
+      input, button, textarea, select {
+        font-family: 'Cairo', sans-serif;
+      }
+
+      /* Animation classes */
+      .animate-fade-up {
+        animation: fadeUp 0.5s ease-out forwards;
+      }
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Print Styles for PDF Export */
+      @media print {
+        /* General Reset */
+        html, body {
+          background-color: white !important;
+          color: black !important;
+          height: auto !important;
+          width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow: visible !important;
+        }
+
+        /* Hide elements explicitly marked no-print */
+        .no-print {
+          display: none !important;
+        }
+
+        /* =========================================
+           MODE 1: PRINTING INVOICE MODAL
+           Triggered if body has class 'print-mode'
+           ========================================= */
+        body.print-mode * {
+            visibility: hidden; /* Hide everything by default */
+        }
+
+        body.print-mode #invoice-content, 
+        body.print-mode #invoice-content * {
+            visibility: visible; /* Show only invoice content */
+            color: black !important;
+        }
+
+        body.print-mode #invoice-content {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            margin: 0;
+            padding: 20px;
+            background: white !important;
+            color: black !important;
+            border: none;
+            overflow: visible !important;
+            max-height: none !important;
+        }
+
+        /* =========================================
+           MODE 2: PRINTING DASHBOARD (Default)
+           Triggered if body DOES NOT have class 'print-mode'
+           ========================================= */
+        body:not(.print-mode) #root {
+            display: block !important;
+            width: 100% !important;
+        }
+
+        body:not(.print-mode) .min-h-screen, 
+        body:not(.print-mode) .flex, 
+        body:not(.print-mode) .flex-col, 
+        body:not(.print-mode) .container {
+            display: block !important;
+            height: auto !important;
+            width: 100% !important;
+        }
+
+        body:not(.print-mode) table {
+            border-collapse: collapse;
+            width: 100% !important;
+        }
+        
+        body:not(.print-mode) th, 
+        body:not(.print-mode) td {
+            border: 1px solid #000 !important;
+            color: black !important;
+            padding: 8px !important;
+        }
+
+        body:not(.print-mode) thead {
+            border-bottom: 2px solid #000 !important;
+            display: table-header-group;
+        }
+        
+        body:not(.print-mode) tr {
+            page-break-inside: avoid;
+        }
+      }
+      
+      @page {
+        size: auto;
+        margin: 10mm;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "vite": "https://aistudiocdn.com/vite@^7.2.6",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+    "xlsx": "https://esm.sh/xlsx@^0.18.5"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+    
+    <!-- Service Worker Registration for Offline Support -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('SW registered: ', registration);
+            })
+            .catch(registrationError => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>
